@@ -4,12 +4,6 @@
 
 	请参见 [Kesci官网介绍](http://www.kesci.com/apps/home_log/index.html#!/competition/56cd5f02b89b5bd026cb39c9)
 
-- 参赛队伍
-
-	不得仰视本王
-
-	队员: [天音](https://tianchi.shuju.aliyun.com/science/scientistDetail.htm?spm=5176.100065.0.0.gnyTyY&userId=713068774)，[Cyber](https://tianchi.shuju.aliyun.com/science/scientistDetail.htm?spm=0.0.0.0.hITk7I&userId=728128096)，[Bryan](http://blog.csdn.net/bryan__)，[赵蕊](https://tianchi.shuju.aliyun.com/science/scientistDetail.htm?spm=5176.100170.111.28.PytD5w&userId=312633256)，[wepon](http://2hwp.com/)
-
 - 解决方案
 
 	详细解决方案请看 [PDF文件](https://github.com/wepe/PPD_RiskControlCompetition/blob/master/%E9%A3%8E%E6%8E%A7%E7%AE%97%E6%B3%95%E5%A4%A7%E8%B5%9B%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88.pdf)
