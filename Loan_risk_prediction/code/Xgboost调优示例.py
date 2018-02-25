@@ -15,13 +15,34 @@
    GridSearchCV 博客:
    http://blog.csdn.net/cherdw/article/details/54970366
 '''
+import pandas as pd
+import numpy as np
+import xgboost as xgb
+import matplotlib.pylab as plt
+
+from matplotlib.pylab import rcParams
 from xgboost import XGBClassifier
 from sklearn import svm, grid_search, datasets
 from sklearn.model_selection import GridSearchCV  # 网格搜索
 
+# %matplotlib inline
+rcParams['figure.figsize'] = 12, 4
+
+train = pd.read_csv('E:\py_workspace\TIANCHI_Project\Loan_risk_prediction\data\Train_nyOWmfK.csv')
+target = 'Disbursed'
+IDcol = 'ID'
+
+# 先定义一个函数，帮助我们建立XGBoost models 并进行交叉验证
+def modelfit(alg, dtrain, predictors, useTrainCV=True, cv_folds=0.5, early_stopping_rounds=50):
+    if useTrainCV:
+        xgb_param = alg.get_xgb_params()
+        xgtrain = xgb.DMatrix(dtrain[predictors].values, label=dtrain[target].values)
+        cvresult = xgb.cv(xgb_param, xgtrain)
+
 #
 # 第一步: 确定学习速率和tree_based参数  调优的估计器的数目
 #
+predictors = [x for x in train.columns if x not in [target, IDcol]]
 xgb1 = XGBClassifier(
     learning_rate= 0.1,
     n_estimators= 1000,
@@ -50,6 +71,7 @@ xgb1 = XGBClassifier(
     seed= 27               # 随机数种子
                            # 设置他可以复现随机数据的结果，也可以用于调整参数
 )
+
 
 # 第二部:max_depth 和 min_weight 参数调优
 # grid_search 参考:
@@ -97,6 +119,12 @@ gsearch1 = GridSearchCV(
     refit=True                  # 默认为True，程序将会以交叉验证训练集得到的最佳参数，重新对所有可用的训练集与开发集进行，
                                 # 作为最终用于性能评估的最佳模型参数。即在搜索参数结束后，用最佳参数结果再次fit一遍全部数据集。
 )
+gsearch1.fit(train[predictors],train[target])
+gsearch1.grid_scores_,
+gsearch1.best_params_,
+gsearch1.best_score_
+
+
 
 
 
