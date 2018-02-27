@@ -29,7 +29,7 @@ from sklearn.model_selection import GridSearchCV  # 网格搜索
 # %matplotlib inline
 rcParams['figure.figsize'] = 12, 4
 
-train = pd.read_csv('E:\py_workspace\TIANCHI_Project\Loan_risk_prediction\data\Train_nyOWmfK.csv')
+train = pd.read_csv('E:\py_workspace\TIANCHI_Project\Loan_risk_prediction\data\\train_modified.csv')
 target = 'Disbursed'
 IDcol = 'ID'
 
@@ -138,10 +138,10 @@ gsearch1 = GridSearchCV(
     refit=True                  # 默认为True，程序将会以交叉验证训练集得到的最佳参数，重新对所有可用的训练集与开发集进行，
                                 # 作为最终用于性能评估的最佳模型参数。即在搜索参数结束后，用最佳参数结果再次fit一遍全部数据集。
 )
-gsearch1.fit(train[predictors],train[target])
-gsearch1.grid_scores_,
-gsearch1.best_params_,
-gsearch1.best_score_
+gsearch1.fit(train[predictors],train[target])  # 运行网格搜索
+#gsearch1.grid_scores_,                         # 给出不同参数情况下的评价结果
+gsearch1.best_params_,                         # 描述了已取得最佳结果的参数的组合
+gsearch1.best_score_                           # 成员提供优化过程期间观察到的最好的结果的评分
 
 # 第三步: gamma参数调优
 param_test3 = {
