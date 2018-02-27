@@ -1,15 +1,12 @@
 # 天池智慧交通预测挑战赛解决方案
 
-本博客分享新人第一次参加天池比赛的实况记录，比较完整地给出了数据预处理，缺失值补全，特征分析过程以及训练和交叉验证的注意事项，适合数据挖掘新人找到解题思路，全程没有调参，没有模型融合，只凭一手简单的特征和xgboost，最后止步41/1716，基本上可以作为时间序列预测类的比赛的baseline．完整代码在[Github](https://github.com/PENGZhaoqing/TimeSeriesPrediction)
-
-（ps. 不是我不调参，不融合模型，是以现在的特征即使做了这些，提高也不会很大，所以还是特征的问题，可能太简单了）
-
 * preprocess.py: 数据预处理（类型转换，缺失值处理，特征提取）
 * xgbosst.py: 训练模型和交叉验证
 
 # 1. 数据和题目说明
 
-这个比赛的目标是提供一些路段流量的历史信息, 以此来预测未来一段时间的交通流量, 提供的数据一共有3个表: link_info, link_tops 和travel_time. 分别如下所示:
+这个项目的目标是提供一些路段流量的历史信息, 以此来预测未来一段时间的交通流量。
+提供的数据一共有3个表: link_info, link_tops 和travel_time. 分别如下所示:
 
 ```
 link_infos = pd.read_csv('../raw/gy_contest_link_info.txt', delimiter=';', dtype={'link_ID': object})
