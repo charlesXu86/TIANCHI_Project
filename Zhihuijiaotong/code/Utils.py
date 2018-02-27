@@ -73,6 +73,55 @@ def feature_vis(regressor, train_feature):
 
 
 # --- #
-def submission()
+def submission(train_feature, regressor, df, file1, file2, file3, file4):
+    test_df = df.loc[((df['time_interval_begin'].dt.year == 2017) & (df['time_interval_begin'].dt.month == 7)
+                      & (df['time_interval_begin'].dt.hour.isin([7, 14, 17])) & (df['time_interval_begin'].dt.minite == 58))].copy()
+    test_df['lagging5'] = test_df['lagging4']
+    test_df['lagging4'] = test_df['lagging3']
+    test_df['lagging3'] = test_df['lagging2']
+    test_df['lagging2'] = test_df['lagging1']
+    test_df['lagging1'] = test_df['travel_time']
+
+    with open(file1, 'w'):
+        pass
+    with open(file2, 'w'):
+        pass
+    with open(file3, 'w'):
+        pass
+    with open(file4, 'w'):
+        pass
+
+    for i in range(30):
+        test_X = test_df[train_feature]
+        y_prediction = regressor.predict(test_X.values)
+
+        test_df['lagging5'] = test_df['lagging4']
+        test_df['lagging4'] = test_df['lagging3']
+        test_df['lagging3'] = test_df['lagging2']
+        test_df['lagging2'] = test_df['lagging1']
+        test_df['lagging1'] = y_prediction
+
+        test_df['predicted'] = np.expm1(y_prediction)
+        test_df['time_interval_begin'] = test_df['time_interval_begin'] + pd.DateOffset(minutes=2)
+        test_df['time_interval'] = test_df['time_interval_begin'].map(
+            lambda x: '[' + str(x) + ',' + str(x + pd.DateOffset(minutes=2)) + ')')
+        test_df.time_interval = test_df.time_interval.astype(object)
+        if i < 7:
+            test_df[['link_ID', 'date', 'time_interval', 'predicted']].to_csv(file1, mode='a', header=False,
+                                                                              index=False,
+                                                                              sep=';')
+        elif (7 <= i) and (i < 14):
+            test_df[['link_ID', 'date', 'time_interval', 'predicted']].to_csv(file2, mode='a', header=False,
+                                                                              index=False,
+                                                                              sep=';')
+        elif (14 <= i) and (i < 22):
+            test_df[['link_ID', 'date', 'time_interval', 'predicted']].to_csv(file3, mode='a', header=False,
+                                                                              index=False,
+                                                                              sep=';')
+        else:
+            test_df[['link_ID', 'date', 'time_interval', 'predicted']].to_csv(file4, mode='a', header=False,
+                                                                              index=False,
+                                                                              sep=';')
+
 
 
