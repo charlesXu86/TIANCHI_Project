@@ -104,6 +104,64 @@ def imputation_with_model(file, to_file):
     df = pd.get_dummies(df, columns=['vocation', 'links_num', 'hour', 'week_day', 'month', 'year'])     # 将分类变量转换为虚拟/指示符变量
 
     def mean_time(group):
+        group['link_ID_en'] = group['travel_time'].mean()
+        return group
+
+    df = df.groupby('link_ID').apply(mean_time)
+    sorted_link = np.sort(df['link_ID_en'].unique())
+    df['link_ID_en'] = df['link_ID_en'].map(lambda x: np.argmin(x >= sorted_link))
+
+    train_df = df.loc[~df['travel_time'].isnull()]
+    test_df = df.loc[df['travel_time'].isnull()].copy()
+
+    feature = df.columns.values.tolist()
+    train_feature = [x for x in feature if
+                     x not in ['link_ID', 'time_intervel_begin', 'travel_time', 'date']]
+    x = train_df[train_feature].values
+    y = test_df['travel_time'].values
+
+    print(train_feature)
+
+    params={
+        'learning_rate': 0.2,
+        'n_estimators': 30,
+        'subsample': 0.8,
+        'colsample_bytree': 0.6,
+        'max_depth': 7,
+        'min_child_weight': 1,
+        'reg_alpha': 0,
+        'gamma': 0
+    }
+
+    X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.1, random_state=0)
+    eval_set = [(X_test, y_test)]
+    regressor = xgb.XGBRegressor(
+        learning_rate= params['learning_rate'],
+        n_estimators= params['n_estimators'],
+        booster= 'gbtree',
+        objective= 'reg:linear',
+        n_jobs= 1,
+        subsample= params['subsample'],
+        max_depth= params['max_depth'],
+        gamma= params['gamma'],
+        min_child_weight= params['min_child_weight'],
+        reg_alpha= params['reg_alpha']
+    )
+    regressor.fit(X_train, y_train, verbose=True, early_stopping_rounds=10,    # verbose=True   verbose表示详细信息，verbose=FALSE，意思就是设置运行的时候不显示详细信息。
+                  eval_metric=mape_in, eval_set=eval_set)
+    feature_vis = (regressor, train_feature)
+
+    test_df['prediction'] = regressor.predict(test_df[train_feature].values)
+    df = pd.merge(df, test_df[['link_ID', 'time_interval_begin', 'travel_time', 'imputation1']],
+                  on=['link_ID', 'time_interval_begin'], how='left')
+    print(df[['travel_time', 'prediction']].describe())
+
+    df['imputation1'] = df['travel_time'].isnull()
+    df['travel_time'] = df['travel_time'].fillna(value=df['prediction'])
+    df[['link_ID', 'date', 'time_interval_begin', 'travel_time', 'imputation1']].to_csv(to_file, header=True, index=None, sep=';', mode='w')
+
+
+
 
 
 
