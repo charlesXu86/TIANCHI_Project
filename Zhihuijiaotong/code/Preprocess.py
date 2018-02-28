@@ -160,21 +160,61 @@ def imputation_with_model(file, to_file):
     df['travel_time'] = df['travel_time'].fillna(value=df['prediction'])
     df[['link_ID', 'date', 'time_interval_begin', 'travel_time', 'imputation1']].to_csv(to_file, header=True, index=None, sep=';', mode='w')
 
+def create_lagging(df, df_original, i):
+    df1 = df_original.copy()
+    df1['time_interval_begin'] = df1['time_interval_begin'] + pd.DateOffset(minutes = i * 2)
+    df1 = df1.rename(columns={'travel_time': 'lagging' + str(i)})
+    df2 = pd.merge(df, df1[['link_ID', 'time_interval_begin', 'lagging' + str(i)]],
+                       on=['link_ID', 'time_interval_begin'], how='left')
+    return df2
 
+def create_feture(file, to_file, lagging=5):
+    df = pd.read_csv(file, delimiter=';', parse_dates=['time_interval_begin'], dtype={'link_ID':object})
 
+    # lagging feature
+    df1 = create_lagging(df, df, 1)
+    for i in range(2, lagging + 1):
+        df1 = create_lagging(df1, df, i)
 
+    # length, width feature
+    link_infos = pd.read_csv('E:\dataset\data\gy_contest_link_info.txt', delimiter=';', dtype={'link_ID':object})
+    link_tops = pd.read_csv('E:\dataset\data\gy_contest_link_top.txt', delimiter=';', dtype={'link_ID':object})
+    link_tops['in_links'] = link_tops['in_links'].str.len().apply(lambda x: np.floor(x / 19))
+    link_tops['out_links'] = link_tops['out_links'].str.len().apply(lambda x: np.floor(x / 19))
+    link_tops = link_tops.fillna(0)
+    link_infos = pd.merge(link_infos, link_tops, on='link_ID', how='left')
+    link_infos['links_num'] = link_infos['in_links'].astype('str') + "," + link_infos['out_links'].astype('str')
+    link_infos['area'] = link_infos['length'] * link_infos['width']
+    df2 = pd.merge(df1, link_infos[['link_ID', 'length', 'width', 'links_num', 'area']], on=['link_ID'], how='left')
+    # df.boxplot(by=['width'], column='travel_time')
+    # plt.show()
+    # df.boxplot(by=['length'], column='travel_time')
+    # plt.show()
 
+    # links_num feature
+    df2.loc[df2['links_num'].isin(['0.0,2.0', '2.0,0.0', '1.0,0.0']), 'links_num'] = 'other'
+    # df.boxplot(by=['links_num'], column='travel_time')
+    # plt.show()
 
+    # vacation feture
+    df2.loc[df2['date'].isin(
+        ['2017-04-02', '2017-04-03', '2017-04-04', '2017-04-29', '2017-04-30', '2017-05-01',
+         '2017-05-28', '2017-05-29', '2017-05-30']), 'vacation'] = 1
+    df2.loc[~df2['date'].isin(
+        ['2017-04-02', '2017-04-03', '2017-04-04', '2017-04-29', '2017-04-30', '2017-05-01',
+         '2017-05-28', '2017-05-29', '2017-05-30']), 'vacation'] = 0
 
+    # minute_series for CV
+    df2.loc[df2['time_interval_begin'].dt.hour.isin([6, 7, 8]), 'minute_series'] = \
+        df2['time_interval_begin'].dt.minute + (df2['time_interval_begin'].dt.hour - 6) * 60
 
+    df2.loc[df2['time_interval_begin'].dt.hour.isin([13, 14, 15]), 'minute_series'] = \
+        df2['time_interval_begin'].dt.minute + (df2['time_interval_begin'].dt.hour - 13) * 60
 
-
-
-
-
-
+    df2.loc[df2['time_interval_begin'].dt.hour.isin([16, 17, 18]), 'minute_series'] = \
+        df2['time_interval_begin'].dt.minute + (df2['time_interval_begin'].dt.hour - 16) * 60
 
 
 
 if __name__ == '__main__':
-    pass
+    create_feture('data/com_training.txt', 'data/training.txt', lagging=5)
