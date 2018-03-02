@@ -117,7 +117,7 @@ def imputation_with_model(file, to_file):
     feature = df.columns.values.tolist()
     train_feature = [x for x in feature if
                      x not in ['link_ID', 'time_intervel_begin', 'travel_time', 'date']]
-    x = train_df[train_feature].values
+    X = train_df[train_feature].values
     y = test_df['travel_time'].values
 
     print(train_feature)
