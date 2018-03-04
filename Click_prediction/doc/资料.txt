@@ -2,3 +2,4 @@
     点击率预估数据下载链接: wget --no-check-certificate https://s3-eu-west-1.amazonaws.com/criteo-labs/dac.tar.gz
     点击率预估算法：FM与FFM详解：http://blog.csdn.net/jediael_lu/article/details/77772565
     Kaggle实战——点击率预估：http://blog.csdn.net/chengcheng1394/article/details/78940565
+    深入FFM原理与实践: http://blog.csdn.net/mmc2015/article/details/51760681
