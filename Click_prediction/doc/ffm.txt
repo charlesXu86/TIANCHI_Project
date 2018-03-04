@@ -1,0 +1,15 @@
+FFM应用
+
+在计算广告领域，点击率CTR（click-through rate）和转化率CVR（conversion rate）是衡量广告流量的两个关键指标。
+准确的估计CTR、CVR对于提高流量的价值，增加广告收入有重要的指导作用。
+
+预估CTR/CVR，业界常用的方法有
+      人工特征工程 +
+      LR(Logistic Regression)、
+      GBDT(Gradient Boosting Decision Tree) +
+      LR[1][2][3]、
+      FM（Factorization Machine）[2][7]和
+      FFM（Field-aware Factorization Machine）[9]模型。
+在这些模型中，FM和FFM近年来表现突出，分别在由Criteo和Avazu举办的CTR预测竞赛中夺得冠军[4][5]。
+
+
