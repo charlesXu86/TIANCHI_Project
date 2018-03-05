@@ -11,6 +11,10 @@
 # the BSD 3 clause.  It is NOT a drop-in replacement and should not be mixed
 # with sklearn files.
 
+'''
+  处理非均衡样本
+'''
+
 from __future__ import division
 
 import itertools
