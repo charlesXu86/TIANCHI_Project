@@ -1,7 +1,9 @@
 # 第一届腾讯社交广告高校算法大赛-移动App广告转化率预估
     赛题详情http://algo.tpai.qq.com/home/information/index.html  
     题目描述
-    根据从某社交广告系统连续两周的日志记录按照推广中的App和用户维度随机采样构造的数据，预测App广告点击后被激活的概率：pCVR=P(conversion=1 | Ad,User,Context)，即给定广告、用户和上下文情况下广告被点击后发生激活的概率。
+    根据从某社交广告系统连续两周的日志记录按照推广中的App和用户维度随机采样构造的数据，
+    预测App广告点击后被激活的概率：pCVR=P(conversion=1 | Ad,User,Context)，
+    即给定广告、用户和上下文情况下广告被点击后发生激活的概率。
 # 运行环境
 - 操作系统 Ubuntu 14.04.4 LTS (GNU/Linux 4.2.0-27-generic x86_64)
 - 内存 128GB
