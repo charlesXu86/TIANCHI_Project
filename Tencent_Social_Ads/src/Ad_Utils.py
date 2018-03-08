@@ -17,7 +17,7 @@ import scipy.stats as sps  # 统计推断包
 from tqdm import tqdm
 
 # file_path
-raw_data_path = '../data/'
+raw_data_path = 'E:\dataset\\final\\'
 feature_data_path ='../features/'
 cache_pkl_path = '../cache_pkl/'
 result_path = '../result/'
