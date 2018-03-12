@@ -18,7 +18,7 @@ from tqdm import tqdm
 
 # file_path
 raw_data_path = 'E:\dataset\\final\\'
-feature_data_path ='../features/'
+feature_data_path ='E:\dataset\\final\\features'
 cache_pkl_path = '../cache_pkl/'
 result_path = '../result/'
 
