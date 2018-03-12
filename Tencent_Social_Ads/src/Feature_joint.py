@@ -4,7 +4,7 @@
 @version: 
 @author: CharlesXu
 @license: Q_S_Y_Q 
-@file: feature_joint.py
+@file: Feature_joint.py
 @time: 2018/3/8 15:41
 @desc: 特征拼接
 """
