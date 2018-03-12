@@ -154,8 +154,8 @@ def generate_stats_feature():
     if os.path.exists(feature_path):
         print('Found', feature_path)
     else:
-        train = load_pickle(raw_data_path, 'train.pkl')
-        test = load_pickle(raw_data_path, 'test.pkl')
+        train = load_pickle(raw_data_path + 'train.pkl')
+        test = load_pickle(raw_data_path + 'test.pkl')
         data = train.append(test)
         del train, test
         gc.collect()
