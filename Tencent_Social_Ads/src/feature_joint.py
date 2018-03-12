@@ -79,7 +79,7 @@ def addTime(data):
     '''
     data['clickDay'] = data['clickTime']//1000000
     data['clickDay'] = data['clickDay'].astype(int)
-    data['clickHour'] = (data['clickTIme']//10000%100).astype(int)
+    data['clickHour'] = (data['clickTime']//10000%100).astype(int)
     # data['clickMin'] = (data['clickTime']%10000//100).astype(int)
     # data['clickSec'] = (data['clickTime']%100).astype(int)
     return data
