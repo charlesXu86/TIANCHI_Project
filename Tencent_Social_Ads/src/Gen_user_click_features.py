@@ -122,7 +122,7 @@ def add_user_day_click(data):
     :param data:
     :return:
     '''
-    feature_path = feature_data_path + 'user_day_click.pkl'
+    feature_path = feature_data_path + 'user_day_clicks.pkl'
     if not os.path.exists(feature_path):
         gen_user_day_click()
     user_click_day = load_pickle(feature_path)
