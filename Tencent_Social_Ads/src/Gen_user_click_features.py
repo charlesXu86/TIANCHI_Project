@@ -114,7 +114,7 @@ def gen_user_hour_click_count(update=False):
         else:
             print('Generation' + feature_path)
             user_feature_click_day = data.groupby(['userID','clickDay','clickHour',feature]).size().reset_index().rename(columns={0:'user_'+feature+'_click_hour'})
-            dump_pickle(data, user_feature_click_day, feature_path)
+            dump_pickle(user_feature_click_day, feature_path)
 
 def add_user_day_click(data):
     '''
