@@ -127,10 +127,3 @@ def simple_avg(pred_list):
     for p in pred_list:
         ans += inverse_logit(p)
     return logit(ans/len(pred_list))
-
-
-
-
-
-if __name__ == '__main__':
-    pass
