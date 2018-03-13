@@ -40,7 +40,7 @@ def gen_app_start_installed():
 
 def add_app_start_installed(data):
     feature_path = feature_data_path + 'app_start_installed.pkl'
-    app_start_installed = load_pickle(feature_data_path)
+    app_start_installed = load_pickle(feature_path)
     data = pd.merge(data, app_start_installed, on='appID', how='left')
     return data
 
@@ -71,6 +71,9 @@ def gen_app_hist_install():
         # 添加最后一天的相关信息
         last_day_install = app_hist_install[app_hist_install.installDay<31].groupby('appID').size().reset_index()
         last_day_install.rename(columns={0: 'app_hist_install'}, inplace=True)
+        last_day_install['Day'] = 31
+        data_set = pd.concat([data_set, last_day_install])
+        data_set.rename(columns={'Day':'clickDay'}, inplace=True)
         pickle.dump(data_set, open(feature_path, 'wb'))
 
 def add_app_hist_install(data):
