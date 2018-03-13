@@ -56,5 +56,5 @@ def add_global_count_sum(data,last_day =27 ,stats_features=['positionID','creati
 if __name__ == '__main__':
     gen_ID_global_sum_count(27)
     gen_ID_global_sum_count(31)
-    add_global_count_sum(27)
+    # add_global_count_sum(27)
     print('all done')
