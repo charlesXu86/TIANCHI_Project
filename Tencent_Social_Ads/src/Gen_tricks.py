@@ -6,7 +6,8 @@
 @license: Q_S_Y_Q 
 @file: Gen_tricks.py
 @time: 2018/3/14 9:03
-@desc: 生成tricks
+@desc: 广告主转化回流上报机制分析
+       不同的广告主具有不同的转化计算方式，如第一次点击算转化，最后一次点击算转化，安装时点击算转化，分析并构造相应描述特征，提升模型预测精度。
 """
 import pandas as pd
 import numpy as np
